@@ -1,0 +1,9 @@
+pandas
+requests
+python-dotenv
+google-cloud-bigquery
+google-auth
+google-cloud-storage
+pyarrow
+pandas-gbq
+

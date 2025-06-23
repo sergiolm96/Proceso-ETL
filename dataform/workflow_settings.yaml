@@ -1,0 +1,5 @@
+dataformCoreVersion: "3.0.23"
+defaultProject: "procesoetl-463316"
+defaultLocation: "europe-southwest1"
+defaultDataset: "silver_data"
+defaultAssertionDataset: "silver_data_assertions"

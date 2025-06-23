@@ -1,0 +1,56 @@
+name: Run Daily ETL + Dataform
+
+on:
+  schedule:
+    - cron: '30 5 * * *'   # Todos los días a las 05:30 UTC
+  workflow_dispatch:
+
+jobs:
+  pipeline:
+    runs-on: ubuntu-latest
+
+    steps:
+      # 1) Obtener el código
+      - name: Checkout repo
+        uses: actions/checkout@v3
+
+      # 2) Decodificar la key de GCP
+      - name: Decode GCP service account key
+        env:
+          SA_KEY_B64: ${{ secrets.GCP_SERVICE_ACCOUNT_KEY_B64 }}
+        run: |
+          echo "$SA_KEY_B64" | base64 -d > keyfile.json
+
+      # 3) Build & Run ETL en Docker
+      - name: Build & run ETL container
+        run: |
+          docker build -t weather-etl .
+          docker run --rm \
+            -v "${{ github.workspace }}/keyfile.json:/app/keyfile.json" \
+            --env GOOGLE_APPLICATION_CREDENTIALS=/app/keyfile.json \
+            --env-file .env.docker \
+            weather-etl
+
+      # ── DATAFORM ──
+
+      # 4) Setup Node.js
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+
+      # 5) Instalar Dataform CLI
+      - name: Install Dataform CLI
+        run: npm install -g @dataform/cli
+
+      # 6) Inicializar credenciales de Dataform
+      - name: Initialize Dataform credentials
+        working-directory: dataform
+        run: |
+          echo "${{ secrets.DF_CREDENTIALS_B64 }}" \
+            | base64 -d > .df-credentials.json
+
+      # 7) Ejecutar Dataform
+      - name: Run Dataform transformations
+        working-directory: dataform
+        run: dataform run

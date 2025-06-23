@@ -1,0 +1,22 @@
+
+config {
+  type: "table",
+  schema: "silver_data",
+  tags: ["silver"]
+}
+
+SELECT
+  city AS Ciudad,
+  DATE(time) AS Fecha,
+  ROUND(AVG(temperature_2m), 1) AS Temperatura_media,
+  ROUND(AVG(relative_humidity_2m), 1) AS Humedad_media
+FROM
+  procesoetl-463316.raw_data_training.weather_data
+WHERE
+  temperature_2m IS NOT NULL
+  AND relative_humidity_2m IS NOT NULL
+  AND city IS NOT NULL
+GROUP BY
+  Ciudad, Fecha
+ORDER BY
+  Fecha DESC, Ciudad

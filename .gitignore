@@ -1,0 +1,63 @@
+# --- Python compilados ---
+*.pyc
+*.pyo
+*.pyd
+__pycache__/
+
+# --- Entornos virtuales ---
+.venv/
+venv/
+env/
+
+# --- Variables de entorno ---
+.env
+.env.*
+# Permitir explícitamente .env.docker
+!.env.docker
+
+
+# --- Archivos temporales y logs ---
+*.log
+*.tmp
+*.swp
+*.swo
+
+# --- Archivos específicos de GCP ---
+.gcloud/
+.cloudshell/
+
+# --- Archivos de IDEs ---
+.vscode/
+.idea/
+*.iml
+
+# --- node_modules (si usas JS en algún dashboard) ---
+node_modules/
+
+# --- build y dist (por si usas empaquetado) ---
+build/
+dist/
+
+# --- Cobertura de tests ---
+coverage/
+*.coverage
+
+# --- Docker ---
+.dockerignore
+
+# --- Terraform ---
+.terraform/
+terraform.tfstate
+terraform.tfstate.*
+
+# --- Secrets específicos (excluir por nombre) ---
+secrets.json
+keys.json
+procesoetl-*.json  
+
+# --- Archivos del sistema ---
+Thumbs.db
+.DS_Store
+
+.df-credentials.json
+node_modules/
