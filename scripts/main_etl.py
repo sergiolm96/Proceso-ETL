@@ -1,8 +1,8 @@
 from datetime import datetime, timedelta
-from config import get_config
-from etl.extract import fetch_weather_data
-from etl.transform import transform_weather_data
-from etl.load import load_to_bigquery
+from scripts.config import get_config
+from scripts.etl.extract import fetch_weather_data
+from scripts.etl.transform import transform_weather_data
+from scripts.etl.load import load_to_bigquery
 import pandas as pd
 import time
 
